@@ -61,6 +61,7 @@ class Dialects(Enum):
     SingleStore = "singlestore"
     SQLite = "sqlite"
     IbmDbSa = "ibm_db_sa"
+    Hana = "hana"
 
 
 # Sometimes we want to skip certain types for computing metrics.

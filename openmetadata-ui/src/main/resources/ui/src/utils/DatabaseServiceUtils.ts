@@ -41,6 +41,7 @@ import snowflakeConnection from '../jsons/connectionSchemas/connections/database
 import sqliteConnection from '../jsons/connectionSchemas/connections/database/sqliteConnection.json';
 import trinoConnection from '../jsons/connectionSchemas/connections/database/trinoConnection.json';
 import verticaConnection from '../jsons/connectionSchemas/connections/database/verticaConnection.json';
+import hanaConnection from '../jsons/connectionSchemas/connections/database/hanaConnection.json';
 
 export const getDatabaseConfig = (type: DatabaseServiceType) => {
   let schema = {};
@@ -178,6 +179,11 @@ export const getDatabaseConfig = (type: DatabaseServiceType) => {
     }
     case DatabaseServiceType.DomoDatabase: {
       schema = domoDatabaseConnection;
+
+      break;
+    }
+    case DatabaseServiceType.Hana: {
+      schema = hanaConnection;
 
       break;
     }

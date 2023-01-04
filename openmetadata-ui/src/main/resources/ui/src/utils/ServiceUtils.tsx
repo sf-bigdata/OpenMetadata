@@ -70,6 +70,7 @@ import {
   MODE,
   MSSQL,
   MYSQL,
+  HANA,
   NIFI,
   ORACLE,
   PINOT,
@@ -129,6 +130,9 @@ export const serviceTypeLogo = (type: string) => {
   switch (type) {
     case DatabaseServiceType.Mysql:
       return MYSQL;
+
+    case DatabaseServiceType.Hana:
+        return HANA;
 
     case DatabaseServiceType.Redshift:
       return REDSHIFT;
