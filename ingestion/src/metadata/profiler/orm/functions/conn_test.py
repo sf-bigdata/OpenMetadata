@@ -40,6 +40,10 @@ def _(*_, **__):
 def _(*_, **__):
     return "SELECT 42 FROM DUAL"
 
+@compiles(ConnTestFn, Dialects.Hana)
+def _(*_, **__):
+    return "SELECT 42 FROM DUMMY"
+
 
 @compiles(ConnTestFn, Dialects.BigQuery)
 def _(*_, **__):

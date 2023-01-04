@@ -60,6 +60,7 @@ import {
   DYNAMODB,
   FIVETRAN,
   GLUE,
+  HANA,
   HIVE,
   IBMDB2,
   IMPALA,
@@ -129,6 +130,9 @@ export const serviceTypeLogo = (type: string) => {
   switch (type) {
     case DatabaseServiceType.Mysql:
       return MYSQL;
+
+    case DatabaseServiceType.Hana:
+      return HANA;
 
     case DatabaseServiceType.Redshift:
       return REDSHIFT;
