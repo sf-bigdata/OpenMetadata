@@ -17,7 +17,6 @@ import { t } from 'i18next';
 import {
   Bucket,
   DynamicFormFieldType,
-  DynamicObj,
   ServicesData,
   ServiceTypes,
 } from 'Models';
@@ -376,7 +375,7 @@ export const getTotalEntityCountByService = (buckets: Array<Bucket> = []) => {
   return entityCounts;
 };
 
-export const getKeyValuePair = (obj: DynamicObj) => {
+export const getKeyValuePair = (obj: Record<string, string>) => {
   return Object.entries(obj).map((v) => {
     return {
       key: v[0],
@@ -386,7 +385,7 @@ export const getKeyValuePair = (obj: DynamicObj) => {
 };
 
 export const getKeyValueObject = (arr: DynamicFormFieldType[]) => {
-  const keyValuePair: DynamicObj = {};
+  const keyValuePair: Record<string, string> = {};
 
   arr.forEach((obj) => {
     if (obj.key && obj.value) {
