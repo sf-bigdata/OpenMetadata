@@ -52,9 +52,6 @@ from metadata.generated.schema.entity.services.connections.database.mssqlConnect
 from metadata.generated.schema.entity.services.connections.database.mysqlConnection import (
     MysqlConnection,
 )
-from metadata.generated.schema.entity.services.connections.database.hanaConnection import (
-    HanaConnection,
-)
 from metadata.generated.schema.entity.services.connections.database.oracleConnection import (
     OracleConnection,
     OracleDatabaseSchema,
@@ -94,6 +91,9 @@ from metadata.generated.schema.security.credentials.gcsCredentials import (
     GCSValues,
     MultipleProjectId,
     SingleProjectId,
+)
+from metadata.generated.schema.entity.services.connections.database.hanaConnection import (
+    HanaConnection,
 )
 from metadata.ingestion.models.custom_pydantic import CustomSecretStr
 
@@ -191,6 +191,7 @@ def get_connection_url(connection):
 @get_connection_url.register(SingleStoreConnection)
 @get_connection_url.register(Db2Connection)
 @get_connection_url.register(VerticaConnection)
+@get_connection_url.register(HanaConnection)
 def _(connection):
     return get_connection_url_common(connection)
 
