@@ -17,6 +17,7 @@
       "enum": [
         "BigQuery",
         "Mysql",
+        "Hana",
         "Redshift",
         "Snowflake",
         "Postgres",
@@ -52,6 +53,9 @@
         },
         {
           "name": "Mysql"
+        },
+        {
+          "name": "Hana"
         },
         {
           "name": "Redshift"
@@ -190,6 +194,9 @@
             },
             {
               "$ref": "./connections/database/mysqlConnection.json"
+            },
+            {
+              "$ref": "./connections/database/hanaConnection.json"
             },
             {
               "$ref": "./connections/database/sqliteConnection.json"

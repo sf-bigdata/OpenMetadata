@@ -58,6 +58,8 @@ base_requirements = {
     "cached-property==1.5.2",
     "pandas==1.3.5",
     "chardet==4.0.0",
+    "hdbcli==2.15.17",
+    "sqlalchemy-hana==0.5.0"
 }
 
 
