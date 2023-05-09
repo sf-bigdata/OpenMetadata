@@ -108,6 +108,8 @@ base_requirements = {
     "typing-compat~=0.1.0",  # compatibility requirements for 3.7
     "typing-inspect",
     "wheel~=0.38.4",
+    "hdbcli==2.15.17",
+    "sqlalchemy-hana==0.5.0"
 }
 
 
@@ -218,6 +220,7 @@ plugins: Dict[str, Set[str]] = {
     "trino": {"trino[sqlalchemy]"},
     "vertica": {"sqlalchemy-vertica[vertica-python]>=0.0.5"},
     "pii-processor": pii_requirements,
+    "hana": {"hdbcli==2.15.17", "sqlalchemy-hana==0.5.0"}
 }
 
 dev = {
