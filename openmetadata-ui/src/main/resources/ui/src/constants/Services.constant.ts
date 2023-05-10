@@ -40,6 +40,7 @@ import druid from '../assets/img/service-icon-druid.png';
 import dynamodb from '../assets/img/service-icon-dynamodb.png';
 import fivetran from '../assets/img/service-icon-fivetran.png';
 import glue from '../assets/img/service-icon-glue.png';
+import hana from '../assets/img/service-icon-hana.png';
 import hive from '../assets/img/service-icon-hive.png';
 import ibmdb2 from '../assets/img/service-icon-ibmdb2.png';
 import impala from '../assets/img/service-icon-impala.png';
@@ -103,6 +104,7 @@ import {
 export const NoDataFoundPlaceHolder = noDataFound;
 export const AddPlaceHolder = addPlaceHolder;
 export const MYSQL = mysql;
+export const HANA = hana;
 export const SQLITE = sqlite;
 export const MSSQL = mssql;
 export const REDSHIFT = redshift;
