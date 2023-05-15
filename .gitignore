@@ -122,3 +122,5 @@ scan-requirements.txt
 
 # CLI e2e tests
 ingestion/tests/cli_e2e/**/*test.yaml
+
+!openmetadata-ui/target/
