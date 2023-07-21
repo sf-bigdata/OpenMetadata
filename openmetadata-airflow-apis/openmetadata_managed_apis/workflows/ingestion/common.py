@@ -353,5 +353,6 @@ def build_dag(
             if ingestion_pipeline.owner
             else "openmetadata",
         )
-
+        print("************************ Execute Task *********************")
+        workflow_fn(workflow_config)
         return dag
