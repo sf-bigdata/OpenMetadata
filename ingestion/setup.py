@@ -201,7 +201,7 @@ plugins: Dict[str, Set[str]] = {
     "postgres": {VERSIONS["pymysql"], "psycopg2-binary", VERSIONS["geoalchemy2"]},
     "powerbi": {VERSIONS["msal"]},
     "presto": {*COMMONS["hive"]},
-    "pymssql": {"pymssql==2.2.5"},
+    "pymssql": {"pymssql==2.2.11"},
     "quicksight": {VERSIONS["boto3"]},
     "redash": {"packaging==21.3"},
     "redpanda": {*COMMONS["kafka"]},

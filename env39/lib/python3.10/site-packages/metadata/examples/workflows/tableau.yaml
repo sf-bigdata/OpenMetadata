@@ -1,0 +1,32 @@
+source:
+  type: tableau
+  serviceName: local_tableau
+  serviceConnection:
+    config:
+      type: Tableau
+      # For Tableau, choose one of basic or access token authentication
+      # # For basic authentication
+      # authType:
+      #   username: username
+      #   password: password
+      # # For access token authentication
+      # authType:
+      #   personalAccessTokenName: personal_access_token_name
+      #   personalAccessTokenSecret: personal_access_token_secret
+      env: tableau_prod
+      hostPort: http://localhost
+      siteName: site_name
+      siteUrl: site_url
+      apiVersion: api_version
+  sourceConfig:
+    config:
+      type: DashboardMetadata
+      dashboardFilterPattern: {}
+      chartFilterPattern: {}
+sink:
+  type: metadata-rest
+  config: {}
+workflowConfig:
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: no-auth
