@@ -115,6 +115,7 @@ const SigninPage = () => {
         break;
       }
       case AuthTypes.CUSTOM_OIDC: {
+        ssoBrandLogo = Icons.SAP_ICON;
         ssoBrandName = authConfig?.providerName
           ? authConfig?.providerName
           : 'SSO';

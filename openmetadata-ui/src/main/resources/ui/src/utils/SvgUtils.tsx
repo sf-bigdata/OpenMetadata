@@ -21,6 +21,7 @@ import IconAzure from '../assets/img/icon-azure.png';
 import IconGithub from '../assets/img/icon-github.png';
 import IconGoogle from '../assets/img/icon-google.png';
 import IconOkta from '../assets/img/icon-okta.png';
+import IconSap from '../assets/img/icon-sap.png';
 import IconNoDataFoundPlaceHolder from '../assets/img/no-data-placeholder.svg';
 import IconWelcomePopper from '../assets/img/welcome-popper-icon.png';
 import IconCommentPlus from '../assets/svg/add-chat.svg';
@@ -223,6 +224,7 @@ export const Icons = {
   WELCOME_POPPER: 'welcome-popper',
   AZURE_ICON: 'azure-icon',
   GOOGLE_ICON: 'google-icon',
+  SAP_ICON: 'sap-icon',
   OKTA_ICON: 'okta-icon',
   COGNITO_ICON: 'cognito-icon',
   GITHUB_ICON: 'github-icon',
@@ -498,6 +500,10 @@ const SVGIcons: FunctionComponent<Props> = ({ icon, ...props }: Props) => {
       break;
     case Icons.GOOGLE_ICON:
       IconComponent = IconGoogle;
+
+      break;
+    case Icons.SAP_ICON:
+      IconComponent = IconSap;
 
       break;
     case Icons.AZURE_ICON:
