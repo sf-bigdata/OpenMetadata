@@ -173,8 +173,7 @@ export const visibleFilters = [
 
 export const ROUTES = {
   HOME: '/',
-  // CALLBACK: '/callback',
-  CALLBACK: '/login/oauth2/code/sfcld',
+  CALLBACK: '/callback',
   SAML_CALLBACK: '/saml/callback',
   SILENT_CALLBACK: '/silent-callback',
   NOT_FOUND: '/404',
