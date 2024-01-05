@@ -145,6 +145,12 @@ public class JwtFilter implements ContainerRequestFilter {
 
     // Setting Security Context
     CatalogPrincipal catalogPrincipal = new CatalogPrincipal(userName);
+    if (SSOAuthMechanism.SsoServiceType.CUSTOM_OIDC.toString().equals(providerType)) {
+      if (claims.get("groups") != null && !claims.get("groups").isNull()) {
+        List<TextNode> camList = claims.get("groups").asList(TextNode.class);
+        camList.forEach(i -> catalogPrincipal.getCamGroup().add(i.textValue()));
+      }
+    }
     String scheme = requestContext.getUriInfo().getRequestUri().getScheme();
     CatalogSecurityContext catalogSecurityContext =
         new CatalogSecurityContext(catalogPrincipal, scheme, SecurityContext.DIGEST_AUTH);

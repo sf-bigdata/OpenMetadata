@@ -42,7 +42,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.json.JsonObject;
@@ -66,6 +68,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -95,6 +98,7 @@ import org.openmetadata.schema.auth.TokenRefreshRequest;
 import org.openmetadata.schema.auth.TokenType;
 import org.openmetadata.schema.email.SmtpSettings;
 import org.openmetadata.schema.entity.teams.AuthenticationMechanism;
+import org.openmetadata.schema.entity.teams.Role;
 import org.openmetadata.schema.entity.teams.User;
 import org.openmetadata.schema.type.EntityHistory;
 import org.openmetadata.schema.type.EntityReference;
@@ -121,6 +125,7 @@ import org.openmetadata.service.secrets.SecretsManagerFactory;
 import org.openmetadata.service.secrets.masker.EntityMaskerFactory;
 import org.openmetadata.service.security.AuthorizationException;
 import org.openmetadata.service.security.Authorizer;
+import org.openmetadata.service.security.CatalogPrincipal;
 import org.openmetadata.service.security.auth.AuthenticatorHandler;
 import org.openmetadata.service.security.auth.BotTokenCache;
 import org.openmetadata.service.security.auth.UserTokenCache;
@@ -157,6 +162,8 @@ public class UserResource extends EntityResource<User, UserRepository> {
   private AuthenticationConfiguration authenticationConfiguration;
   private final AuthenticatorHandler authHandler;
 
+  private final CollectionDAO collectionDAO;
+
   @Override
   public User addHref(UriInfo uriInfo, User user) {
     Entity.withHref(uriInfo, user.getTeams());
@@ -174,6 +181,7 @@ public class UserResource extends EntityResource<User, UserRepository> {
     tokenRepository = new TokenRepository(dao);
     UserTokenCache.initialize(dao);
     authHandler = authenticatorHandler;
+    collectionDAO = dao;
   }
 
   @Override
@@ -388,6 +396,7 @@ public class UserResource extends EntityResource<User, UserRepository> {
       throws IOException {
     Fields fields = getFields(fieldsParam);
     String currentUserName = securityContext.getUserPrincipal().getName();
+    refreshRole(securityContext);
     User user = dao.getByName(uriInfo, currentUserName, fields);
     return addHref(uriInfo, user);
   }
@@ -1403,5 +1412,52 @@ public class UserResource extends EntityResource<User, UserRepository> {
             .maskAuthenticationMechanism(user.getName(), user.getAuthenticationMechanism());
       }
     }
+  }
+
+  @SneakyThrows
+  private void refreshRole(SecurityContext securityContext) {
+      CatalogPrincipal principal = (CatalogPrincipal)securityContext.getUserPrincipal();
+      if(principal.getCamGroup()!=null && principal.getCamGroup().size() > 0){
+          UserRepository userRepository = (UserRepository) Entity.getEntityRepository(Entity.USER);
+          User user = userRepository.dao.findEntityByName(securityContext.getUserPrincipal().getName());
+          Set<String> camSet = new HashSet<>(principal.getCamGroup());
+          boolean isAdmin = camSet.contains(RoleEnum.DP_ADMIN.getCamProfile());
+          user.setIsAdmin(isAdmin);
+          userRepository.dao.update(user);
+          for(RoleEnum re:RoleEnum.values()){
+              String cam = re.getCamProfile();
+              try{
+                  Role role = collectionDAO.roleDAO().findEntityByName(re.getName());
+                  if(camSet.contains(cam)){
+                      collectionDAO.relationshipDAO().insert(user.getId(),role.getId(),"user","role",10);
+                  } else{
+                      collectionDAO.relationshipDAO().delete(user.getId().toString(),"user",role.getId().toString(),"role",10);
+                  }
+              } catch (Exception ex) {
+                  LOG.warn("Role bind failed.",ex);
+              }
+          }
+      }
+  }
+
+  enum RoleEnum{
+      DP_ADMIN("DPAdmin","SAPSF_A-DP_QA_Admin"),
+      DP_EDITOR("DPEditor","SAPSF_A-DP_QA_Editor"),
+      DP_VIEWER("DPViewer","SAPSF_A-DP_QA_Viewer");
+
+      private String name;
+      private String camProfile;
+      RoleEnum(String name, String camProfile){
+          this.name = name;
+          this.camProfile = camProfile;
+      }
+
+      public String getName(){
+          return name;
+      }
+
+      public String getCamProfile(){
+          return camProfile;
+      }
   }
 }

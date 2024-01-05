@@ -14,6 +14,8 @@
 package org.openmetadata.service.security;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 
 public class CatalogPrincipal implements Principal {
@@ -22,6 +24,16 @@ public class CatalogPrincipal implements Principal {
   public CatalogPrincipal(String name) {
     this.name = name;
   }
+
+  public List<String> getCamGroup() {
+    return camGroup;
+  }
+
+  public void setCamGroup(List<String> camGroup) {
+    this.camGroup = camGroup;
+  }
+
+  private List<String> camGroup = new ArrayList<>();
 
   @Override
   public String toString() {
